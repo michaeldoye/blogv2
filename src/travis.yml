@@ -17,7 +17,7 @@ script:
   - npm test
   - ng build --prod
 
-# after_success: gulp coveralls
+# after_success: todo: env var for firebase deploy
 
 cache:
   yarn: true
