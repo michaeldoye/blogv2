@@ -1,0 +1,24 @@
+:host {
+  position: relative;
+  display: block;
+
+  .content-section {
+    padding: 25px;
+    //background: #eaeaea;
+  }
+
+  .aside-field {
+    margin-top: 15px;
+  }
+
+  input[type='file'] {
+    background: #eaeaea;
+    padding: 10px;
+  }
+
+  .featured-img {
+    width: 100%;
+    margin-top: 20px;
+    border: 2px solid #eaeaea;
+  }
+}

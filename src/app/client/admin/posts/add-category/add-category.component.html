@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Categories</h2>
+
+<mat-dialog-content>
+  <mat-tab-group>
+    <mat-tab label="Add New">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="5px"
+        class="margin"
+      >
+        <mat-form-field [style.width]="'100%'" fxFlex="80">
+          <input matInput [(ngModel)]="newCategory" placeholder="Category Name" />
+        </mat-form-field>
+
+        <button
+          [disabled]="!newCategory"
+          mat-button
+          (click)="addNewCategory()"
+          fxFlex="20"
+        >
+          Save
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="Manage">
+      <mat-list>
+        <h3 mat-subheader>Folders</h3>
+        <mat-list-item *ngFor="let category of categories">
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <h4 mat-line>{{ category }}</h4>
+
+          <span fxFlex></span>
+
+          <button color="warn" mat-icon-button (click)="deleteCategory(category)">
+            <mat-icon mat-list-icon>delete_forever</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+
+<p><mat-divider></mat-divider></p>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

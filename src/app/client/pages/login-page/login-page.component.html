@@ -1,0 +1,53 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 100%;">
+  <div class="login mat-elevation-z12">
+    <div class="login-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3>Login</h3>
+    </div>
+    <div [hidden]="!isLoading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <form #form="ngForm" (ngSubmit)="login()">
+      <div class="login-content" fxLayout="column" fxLayoutAlign="start stretch">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="E-Mail"
+            type="text"
+            name="email"
+            required
+            [(ngModel)]="email"
+          />
+          <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Password"
+            [type]="hide ? 'password' : 'text'"
+            name="password"
+            required
+            [(ngModel)]="password"
+          />
+          <mat-icon matSuffix (click)="hide = !hide">{{
+            hide ? 'visibility' : 'visibility_off'
+          }}</mat-icon>
+        </mat-form-field>
+        <div
+          class="extra-options"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <mat-checkbox
+            name="rememberMe"
+            [(ngModel)]="rememberMe"
+            class="remember-me"
+            >Remember Me</mat-checkbox
+          >
+        </div>
+        <button color="primary" mat-raised-button [disabled]="!form.valid">
+          SIGN IN
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

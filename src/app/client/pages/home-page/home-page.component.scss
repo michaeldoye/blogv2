@@ -1,0 +1,12 @@
+:host {
+  position: relative;
+  display: block;
+
+  section.post {
+    margin-bottom: 20px;
+  }
+
+  .mat-card-image {
+    max-height: 162px;
+  }
+}

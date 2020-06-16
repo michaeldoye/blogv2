@@ -1,0 +1,144 @@
+<div
+  class="new-post container"
+  fxLayout="column"
+  fxLayoutAlign="space-between stretch"
+  *ngIf="user"
+>
+  <div class="tb-section" fxLayout="column" fxLayoutAlign="start stretch">
+    <mat-toolbar color="primary">
+      <button mat-icon-button matTooltip="Go Back" routerLink="/admin/posts">
+        <mat-icon aria-label="delete">arrow_back</mat-icon>
+      </button>
+      <p>
+        Updating
+        <span *ngIf="post">
+          <em>{{ post.title }}</em>
+        </span>
+      </p>
+      <span fxFlex></span>
+      <button
+        mat-icon-button
+        matTooltip="Delete Post"
+        (click)="deletePost()"
+        *ngIf="post"
+      >
+        <mat-icon aria-label="delete">delete_forever</mat-icon>
+      </button>
+    </mat-toolbar>
+  </div>
+
+  <div class="content-section">
+    <form
+      class="example-container"
+      (ngSubmit)="savePost(postForm.value)"
+      [formGroup]="postForm"
+      fxLayout="row"
+      fxLayoutAlign="space-evenly start"
+      fxLayoutGap="35px"
+    >
+      <mat-card fxFlex="75" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            placeholder="Post Title"
+            formControlName="title"
+          />
+          <mat-error *ngIf="title.invalid">min 5 characters</mat-error>
+        </mat-form-field>
+
+        <p><mat-divider></mat-divider></p>
+
+        <md-editor
+          name="Content"
+          formControlName="content"
+          required
+          maxlength="12500"
+          (onSave)="savePost(postForm.value)"
+        ></md-editor>
+        <mat-error *ngIf="content.invalid">max 1500</mat-error>
+
+        <input type="hidden" formControlName="author" [value]="" />
+        <input type="hidden" formControlName="dateAdded" [value]="" />
+        <input type="hidden" formControlName="id" [value]="" />
+      </mat-card>
+
+      <mat-card fxFlex="25" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+        <button
+          mat-raised-button
+          [disabled]="postForm.invalid"
+          type="submit"
+          color="primary"
+        >
+          Update Post
+        </button>
+
+        <p><mat-divider></mat-divider></p>
+
+        <mat-form-field class="aside-field">
+          <mat-select placeholder="Categories" formControlName="categories" multiple>
+            <mat-option *ngFor="let category of postCats" [value]="category">{{
+              category
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="categories.invalid">This field is required</mat-error>
+        </mat-form-field>
+
+        <button
+          type="button"
+          style="font-size: 12px;"
+          mat-button
+          (click)="openDialog()"
+        >
+          Add New
+        </button>
+
+        <p><mat-divider></mat-divider></p>
+
+        <mat-form-field class="aside-field">
+          <mat-select placeholder="Tags" formControlName="tags" multiple>
+            <mat-option *ngFor="let tag of postTags" [value]="tag">{{
+              tag
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="tags.invalid">This field is required</mat-error>
+        </mat-form-field>
+
+        <p><mat-divider></mat-divider></p>
+
+        <mat-form-field class="aside-field">
+          <mat-select
+            [value]="status.value"
+            placeholder="Status"
+            formControlName="status"
+          >
+            <mat-option value="published">Published</mat-option>
+            <mat-option value="draft">Draft</mat-option>
+          </mat-select>
+          <mat-error *ngIf="status.invalid">This field is required</mat-error>
+        </mat-form-field>
+
+        <p><mat-divider></mat-divider></p>
+
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            placeholder="Featured Image"
+            formControlName="fileUrl"
+          />
+          <mat-error *ngIf="fileUrl.invalid">min 5 characters</mat-error>
+        </mat-form-field>
+        <input
+          type="file"
+          #file
+          placeholder="Image"
+          (change)="doUpload(file.files)"
+        />
+
+        <img class="featured-img" *ngIf="fileUrl" [src]="fileUrl.value" />
+      </mat-card>
+    </form>
+  </div>
+</div>
+<ms-loading-overlay [isLoading]="isLoading"></ms-loading-overlay>

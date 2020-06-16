@@ -1,0 +1,38 @@
+<div
+  fxLayout="row wrap"
+  fxLayoutAlign="space-evenly stretch"
+  fxLayoutGap="20px"
+  fxLayoutWrap
+>
+  <section class="post" *ngFor="let post of posts" fxFlex="48">
+    <mat-card class="example-card" [@slideAnimation]="true">
+      <mat-card-header>
+        <mat-card-title>
+          <h3>{{ post.title }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <mat-chip-list>
+            <mat-chip *ngFor="let category of post.categories">{{
+              category
+            }}</mat-chip>
+          </mat-chip-list>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <img
+        *ngIf="post.fileUrl"
+        mat-card-image
+        [src]="post.fileUrl"
+        alt="Photo of a Shiba Inu"
+      />
+      <mat-card-content>
+        <p>
+          {{ post.content | slice: 0:300 }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-button (click)="goToPost(post)">Read More</button>
+        <!-- <button mat-button>SHARE</button> -->
+      </mat-card-actions>
+    </mat-card>
+  </section>
+</div>

@@ -1,0 +1,10 @@
+:host {
+  .margin {
+    margin-top: 30px;
+    margin-top: 20px;
+  }
+
+  button[disabled] mat-icon {
+    color: #ababab !important;
+  }
+}

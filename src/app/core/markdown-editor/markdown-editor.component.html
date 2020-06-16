@@ -1,0 +1,198 @@
+<div class="md-editor-container" [class.fullscreen]="isFullScreen">
+  <mat-toolbar
+    [color]="toolBarColor"
+    *ngIf="!hideToolbar && mode != 'preview'"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="5px"
+  >
+    <div class="btn-group">
+      <button
+        mat-icon-button
+        type="button"
+        type="button"
+        matTooltip="Bold"
+        (click)="insertContent('Bold')"
+        *ngIf="!_hideIcons.Bold"
+      >
+        <mat-icon aria-label="bold">format_bold</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Italic"
+        (click)="insertContent('Italic')"
+        *ngIf="!_hideIcons.Italic"
+      >
+        <mat-icon aria-label="italic">format_italic</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Heading"
+        (click)="insertContent('Heading')"
+        *ngIf="!_hideIcons.Heading"
+      >
+        <mat-icon aria-label="italic">format_size</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Refrence"
+        (click)="insertContent('Refrence')"
+        *ngIf="!_hideIcons.Refrence"
+      >
+        <mat-icon aria-label="quote">format_quote</mat-icon>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Link"
+        (click)="insertContent('Link')"
+        *ngIf="!_hideIcons.Link"
+      >
+        <mat-icon aria-label="link">link</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Image"
+        (click)="insertContent('Image')"
+        *ngIf="!_hideIcons.Image"
+      >
+        <mat-icon aria-label="Image">photo</mat-icon>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Unordered List"
+        (click)="insertContent('Ul')"
+        *ngIf="!_hideIcons.Ul"
+      >
+        <mat-icon aria-label="Unordered List">format_list_bulleted</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Ordered List"
+        (click)="insertContent('Ol')"
+        *ngIf="!_hideIcons.Ol"
+      >
+        <mat-icon aria-label="Unordered List">format_list_numbered</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Code Block"
+        (click)="insertContent('Code')"
+        *ngIf="!_hideIcons.Code"
+      >
+        <mat-icon aria-label="code">code</mat-icon>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button
+        mat-icon-button
+        type="button"
+        [matTooltip]="showPreviewPanel ? 'Hide Preview' : 'Show Preview'"
+        (click)="togglePreview()"
+        *ngIf="!_hideIcons.TogglePreview"
+      >
+        <mat-icon aria-label="Unordered List">{{
+          showPreviewPanel ? 'visibility_off' : 'visibility'
+        }}</mat-icon>
+      </button>
+    </div>
+
+    <div class="btn-group pull-right hide-split">
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Full Screen Mode"
+        [class.active]="isFullScreen"
+        (click)="fullScreen()"
+        *ngIf="!_hideIcons.FullScreen && !isFullScreen"
+      >
+        <mat-icon aria-label="fullscreen">fullscreen</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        matTooltip="Exit Full Screen Mode"
+        [class.active]="isFullScreen"
+        (click)="fullScreen()"
+        *ngIf="!_hideIcons.FullScreen && isFullScreen"
+      >
+        <mat-icon aria-label="fullscreen">fullscreen_exit</mat-icon>
+      </button>
+    </div>
+
+    <div class="btn-group pull-right hide-split" *ngIf="!isFullScreen">
+      <mat-slider
+        color="primary"
+        max="1000"
+        step="100"
+        [(ngModel)]="sliderHeight"
+        (change)="adjustHeight()"
+      ></mat-slider>
+    </div>
+
+    <span fxFlex></span>
+
+    <div class="btn-group" *ngIf="isFullScreen">
+      <button
+        mat-icon-button
+        type="button"
+        matTooltipPosition="left"
+        matTooltip="Save Post"
+        (click)="savePost()"
+      >
+        <mat-icon aria-label="save">save</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div class="editor-container" fxLayout="row" fxLayoutAlign="end stretch">
+    <div
+      mwlResizable
+      [style.display]="mode == 'preview' ? 'none' : null"
+      [enableGhostResize]="true"
+      [resizeEdges]="{ bottom: true, right: true, top: true, left: true }"
+      resizeCursors="col-resize"
+    >
+      <div class="editor-panel" [style.height]="sHeight">
+        <div class="ace-editor" #aceEditor></div>
+      </div>
+    </div>
+
+    <div
+      mwlResizable
+      [enableGhostResize]="true"
+      [resizeEdges]="{ bottom: false, right: false, top: false, left: true }"
+      [style.display]="showPreviewPanel ? 'block' : 'none'"
+      [resizeSnapGrid]="{ left: 50, right: 50 }"
+      resizeCursors="col-resize"
+      (click)="previewPanelClick($event)"
+      (resizing)="onResizePanel($event)"
+    >
+      <div
+        class="preview-panel"
+        [innerHtml]="_previewHtml"
+        [style.width]="sWidth"
+        [style.height]="sHeight"
+      ></div>
+    </div>
+  </div>
+  <div *ngIf="maxlength > 0 && mode != 'preview'">
+    <div class="text-right md-footer">
+      {{ markdownValue?.length }} / {{ maxlength }}
+    </div>
+  </div>
+</div>

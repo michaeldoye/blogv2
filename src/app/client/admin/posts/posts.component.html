@@ -1,0 +1,119 @@
+<mat-toolbar color="primary">
+  <span>Posts</span>
+  <span fxFlex></span>
+
+  <div
+    class="selected-tools-wrapper"
+    fxLayout="row"
+    fxLayoutAlign="space-evenly start"
+    fxLayoutGap="10px"
+  >
+    <button
+      *ngIf="selectedPosts.length > 0"
+      mat-icon-button
+      matTooltip="Delete Selected"
+      (click)="doDeleteSelected()"
+    >
+      <mat-icon *ngIf="selectedPosts.length > 1" aria-label="icon"
+        >delete_sweep</mat-icon
+      >
+      <mat-icon *ngIf="selectedPosts.length === 1" aria-label="icon"
+        >delete</mat-icon
+      >
+    </button>
+  </div>
+
+  <button mat-icon-button matTooltip="Add New Post" routerLink="/admin/posts/new">
+    <mat-icon aria-label="icon">note_add</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="example-header">
+  <mat-form-field>
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Filter"
+    />
+  </mat-form-field>
+</div>
+
+<div class="example-container">
+  <mat-table
+    [dataSource]="tblData"
+    matSort
+    matSortActive="dateAdded"
+    matSortDirection="desc"
+  >
+    <ng-container matColumnDef="checkbox">
+      <mat-header-cell fxFlex="60px" *matHeaderCellDef>
+        <mat-checkbox
+          [(ngModel)]="checkAll"
+          [checked]="isAllChecked()"
+          (ngModelChange)="doCheckAll(checkAll)"
+        ></mat-checkbox>
+      </mat-header-cell>
+      <mat-cell fxFlex="60px" *matCellDef="let row">
+        <mat-checkbox
+          [(ngModel)]="row.isChecked"
+          [value]="row.id"
+          (ngModelChange)="doSinglePostSelection(row.id, row.isChecked)"
+        ></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell fxFlex="60px" *matHeaderCellDef mat-sort-header>
+        ID
+      </mat-header-cell>
+      <mat-cell fxFlex="60px" *matCellDef="let row"> {{ row.id }} </mat-cell>
+    </ng-container>
+
+    <!-- title Column -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell fxFlex="35%" *matHeaderCellDef mat-sort-header>
+        Title
+      </mat-header-cell>
+      <mat-cell fxFlex="35%" *matCellDef="let row"> {{ row.title }} </mat-cell>
+    </ng-container>
+
+    <!-- author Column -->
+    <ng-container matColumnDef="author">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Author </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.author }} </mat-cell>
+    </ng-container>
+
+    <!-- date Column -->
+    <ng-container matColumnDef="dateAdded">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.dateAdded | timeAgo }} </mat-cell>
+    </ng-container>
+
+    <!-- status Column -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.status }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button matTooltip="Edit Post" (click)="editPost(row.id)">
+          <mat-icon color="primary" aria-label="delete">edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+</div>
+
+<button class="add-post-fab" mat-fab color="primary" routerLink="/admin/posts/new">
+  <mat-icon aria-label="add post button">note_add</mat-icon>
+</button>
+
+<ms-loading-overlay [isLoading]="isLoading"></ms-loading-overlay>

@@ -1,1 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: #eaeaea;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+code {
+  background: #e0e0e0;
+  padding: 0px 5px;
+}
+
+p {
+  font-size: 16px !important;
+}
+
+p img {
+  width: 100%;
+}
+
+.basic-container {
+  padding: 5px;
+}
+
+@keyframes pageLoad {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.page-load-animation {
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  animation: pageLoad linear 1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.5s;
+  animation-delay: 0.5s;
+  background: #2b303b;
+  z-index: 9999;
+  pointer-events: none;
+}

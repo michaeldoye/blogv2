@@ -1,0 +1,70 @@
+<div
+  class="example-container"
+  [class.light-blue-theme]="!isDarkTheme"
+  [class.example-is-mobile]="mobileQuery.matches"
+  [class.dark-theme]="isDarkTheme"
+>
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">Responsive App</h1>
+    <span fxFlex></span>
+    <button mat-icon-button (click)="changeTheme()">
+      <mat-icon>format_color_fill</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #snav
+      opened="true"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+    >
+      <div class="sidenav-container" fxLayout="column">
+        <div class="sidenav-scrollbar-container" fxLayout="column">
+          <ms-scrollbar>
+            <mat-nav-list>
+              <mat-list-item
+                routerLink="/"
+                fxLayout="row"
+                fxLayoutAlign="space-between center"
+              >
+                <mat-icon color="primary" matListIcon>home</mat-icon>
+                Home Page
+              </mat-list-item>
+
+              <mat-list-item routerLink=".">
+                <mat-icon color="primary" matListIcon>dashboard</mat-icon>
+                Dashboard
+              </mat-list-item>
+
+              <mat-list-item routerLink="posts">
+                <mat-icon color="primary" matListIcon>list</mat-icon>
+                Posts Page
+              </mat-list-item>
+
+              <mat-divider></mat-divider>
+
+              <mat-list-item *ngFor="let nav of fillerNav" routerLink=".">
+                <mat-icon matListIcon>folder</mat-icon>
+                {{ nav }}
+              </mat-list-item>
+            </mat-nav-list>
+          </ms-scrollbar>
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="admin-content-container mat-elevation-z4">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
