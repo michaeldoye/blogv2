@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UpdateService } from './shared/services/update.service';
+import { environment } from '../environments/environment.prod';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'blog';
+
+  constructor(private us: UpdateService) {
+    if (environment.production) {
+      us.checkForUpdates();
+    }
+  }
+
 }

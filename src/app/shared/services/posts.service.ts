@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { FirebaseApp } from '@angular/fire';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { map } from 'rxjs/operators';
+import { Post } from '../../client/admin/posts/posts.component';
 
 declare let marked: any;
 declare let hljs: any;
@@ -24,7 +25,7 @@ export class PostsService {
     this.postsRef = db.object('posts');
   }
 
-  getPosts(): Observable<any> {
+  getPosts(): Observable<Post[]> {
     return this.postsRef.valueChanges().pipe(map((data: any) => data));
   }
 
@@ -37,7 +38,7 @@ export class PostsService {
     return storageRef
       .put(files[0])
       .then((snapshot) => {
-        return snapshot.downloadURL;
+        return storageRef.getDownloadURL();
       })
       .catch((e: Error) => {
         return e.message;

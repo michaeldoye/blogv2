@@ -3,6 +3,7 @@
   fxLayoutAlign="space-evenly stretch"
   fxLayoutGap="20px"
   fxLayoutWrap
+  *ngIf="posts$ | async as posts"
 >
   <section class="post" *ngFor="let post of posts" fxFlex="48">
     <mat-card class="example-card" [@slideAnimation]="true">
@@ -12,9 +13,13 @@
         </mat-card-title>
         <mat-card-subtitle>
           <mat-chip-list>
-            <mat-chip *ngFor="let category of post.categories">{{
-              category
-            }}</mat-chip>
+            <mat-chip
+              *ngFor="let category of post.categories"
+              color="primary"
+              selected
+            >
+              {{ category }}
+            </mat-chip>
           </mat-chip-list>
         </mat-card-subtitle>
       </mat-card-header>
@@ -30,7 +35,9 @@
         </p>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button (click)="goToPost(post)">Read More</button>
+        <button mat-flat-button color="primary" (click)="goToPost(post)">
+          Read More
+        </button>
         <!-- <button mat-button>SHARE</button> -->
       </mat-card-actions>
     </mat-card>

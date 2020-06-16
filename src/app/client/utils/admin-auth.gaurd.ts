@@ -8,7 +8,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Injectable()
 export class AdminAuthGuard implements CanActivate {
@@ -32,7 +32,8 @@ export class AdminAuthGuard implements CanActivate {
           return false;
         }
         return true;
-      })
+      }),
+      take(1)
     );
   }
 }

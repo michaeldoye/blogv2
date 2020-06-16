@@ -14,12 +14,12 @@
       matTooltip="Delete Selected"
       (click)="doDeleteSelected()"
     >
-      <mat-icon *ngIf="selectedPosts.length > 1" aria-label="icon"
-        >delete_sweep</mat-icon
-      >
-      <mat-icon *ngIf="selectedPosts.length === 1" aria-label="icon"
-        >delete</mat-icon
-      >
+      <mat-icon *ngIf="selectedPosts.length > 1" aria-label="icon">
+        delete_sweep
+      </mat-icon>
+      <mat-icon *ngIf="selectedPosts.length === 1" aria-label="icon">
+        delete
+      </mat-icon>
     </button>
   </div>
 
@@ -111,9 +111,5 @@
 
   <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
 </div>
-
-<button class="add-post-fab" mat-fab color="primary" routerLink="/admin/posts/new">
-  <mat-icon aria-label="add post button">note_add</mat-icon>
-</button>
 
 <ms-loading-overlay [isLoading]="isLoading"></ms-loading-overlay>

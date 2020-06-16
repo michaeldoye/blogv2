@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'firebase';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-edit-post',
@@ -42,27 +41,26 @@ export class EditPostComponent implements OnDestroy {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private postService: PostsService,
-    private afAuth: AngularFireAuth,
+    private activatedRoute: ActivatedRoute,
     private sb: MatSnackBar,
     private rt: Router
   ) {
-    this.afAuth.user.subscribe((user: User) => {
-      this.user = user;
-      this.postsRef = this.db.object(`users/${user.uid}`);
-      // Fill the category, tags and posts arrays
-      this.getCatsAndTags();
-      // Build the post form (for editing)
-      this.postForm = this.fb.group({
-        id: '',
-        title: ['', [Validators.required, Validators.minLength(5)]],
-        content: ['', Validators.minLength(10)],
-        author: '',
-        dateAdded: '',
-        categories: ['', Validators.required],
-        tags: ['', Validators.required],
-        status: ['', Validators.required],
-        fileUrl: '',
-      });
+    const user: User = this.activatedRoute.snapshot.data.auth;
+    this.user = user;
+    this.postsRef = this.db.object(`users/${user.uid}`);
+    // Fill the category, tags and posts arrays
+    this.getCatsAndTags();
+    // Build the post form (for editing)
+    this.postForm = this.fb.group({
+      id: '',
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      content: ['', Validators.minLength(10)],
+      author: '',
+      dateAdded: '',
+      categories: ['', Validators.required],
+      tags: ['', Validators.required],
+      status: ['', Validators.required],
+      fileUrl: '',
     });
   }
 
@@ -101,7 +99,7 @@ export class EditPostComponent implements OnDestroy {
     let postId = this.ar.snapshot.paramMap.get('id');
 
     // Get only the current post
-    const post: Post = posts.filter((post: Post) => post.id == postId)[0];
+    const post: Post = posts.find((post: Post) => post.id == postId);
 
     // Set the values of the form from the post data
     if (post && !this.postForm.valid) {

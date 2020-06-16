@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { routeAnimation } from '../../../route.animation';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { PostsService } from '../../../shared/services/posts.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,7 +11,6 @@ import { SafeHtml } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from 'firebase';
 
 @Component({
@@ -53,30 +52,29 @@ export class PostsComponent {
   constructor(
     private db: AngularFireDatabase,
     private sb: MatSnackBar,
-    public afAuth: AngularFireAuth,
     private postService: PostsService,
     public dl: MatDialog,
-    private rt: Router
+    private rt: Router,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.afAuth.user.subscribe((user: User) => {
-      this.user = user;
-      this.postsRef = db.object(`users/${user.uid}`);
-      this.postsRef.valueChanges().subscribe(
-        (data: any) => {
-          if (data) {
-            this.tblData = new MatTableDataSource(data.posts);
-            this.allPosts = data.posts ? data.posts : [];
-            this.postCats = data.categories ? data.categories : [];
-            this.tblData.paginator = this.paginator;
-            this.tblData.sort = this.sort;
-          }
-          this.isLoading = false;
-        },
-        (error) => {
-          this.isLoading = false;
+    const user: User = this.activatedRoute.snapshot.data.auth;
+    this.user = user;
+    this.postsRef = db.object(`users/${user.uid}`);
+    this.postsRef.valueChanges().subscribe(
+      (data: any) => {
+        if (data) {
+          this.tblData = new MatTableDataSource(data.posts);
+          this.allPosts = data.posts ? data.posts : [];
+          this.postCats = data.categories ? data.categories : [];
+          this.tblData.paginator = this.paginator;
+          this.tblData.sort = this.sort;
         }
-      );
-    });
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   /**

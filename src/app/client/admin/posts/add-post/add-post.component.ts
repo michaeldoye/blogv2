@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { routeAnimation } from '../../../../route.animation';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../posts.component';
 import { AddCategoryComponent } from '../add-category/add-category.component';
 import { PostsService } from '../../../../shared/services/posts.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from 'firebase';
 
 @Component({
@@ -37,20 +36,19 @@ export class AddPostComponent implements OnInit {
     private fb: FormBuilder,
     private db: AngularFireDatabase,
     private sb: MatSnackBar,
-    private afAuth: AngularFireAuth,
+    private activatedRoute: ActivatedRoute,
     private postService: PostsService,
     private dialog: MatDialog,
     private router: Router
   ) {
-    this.afAuth.user.subscribe((user: User) => {
-      this.getPosts();
-    });
-
+    const user: User = this.activatedRoute.snapshot.data.auth;
+    this.user = user;
+    this.getPosts();
     this.postForm = fb.group({
       id: this.postsCount,
       title: ['', [Validators.required, Validators.minLength(5)]],
       content: ['### I am example markdown', Validators.minLength(10)],
-      author: this.user.displayName,
+      author: user.displayName || user.email,
       dateAdded: this.postDate,
       categories: ['', Validators.required],
       tags: ['', Validators.required],
@@ -104,6 +102,7 @@ export class AddPostComponent implements OnInit {
   doUpload(file: File) {
     this.isLoading = true;
     this.postService.uploadImage(file).then((data) => {
+      console.log(data);
       this.postForm.patchValue({ fileUrl: data });
       this.sb.open('Image uploaded', 'OK', { duration: 3500 });
       this.isLoading = false;

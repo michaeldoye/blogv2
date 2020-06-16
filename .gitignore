@@ -41,6 +41,9 @@ yarn-error.log
 testem.log
 /typings
 /src/environments/environments.firebase.ts
+.firebaserc
+.firebase
+firebase.json
 
 # System Files
 .DS_Store
