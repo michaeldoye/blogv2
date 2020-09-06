@@ -9,6 +9,7 @@
     }
   },
   "projects": {
-    "blog": "angular-blog-9c2e5"
+    "blog": "angular-blog-9c2e5",
+    "default": "tutor-time-50590"
   }
 }

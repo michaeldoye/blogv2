@@ -16,10 +16,10 @@ import { map } from 'rxjs/operators';
   animations: [routeAnimation, slideAnimation],
 })
 export class HomePageComponent implements OnInit {
-  direction: string = 'row';
+  direction = 'row';
 
   posts$: Observable<Post[]>;
-  isLoading: boolean = true;
+  isLoading = true;
 
   constructor(private postsService: PostsService, private rt: Router) {}
 

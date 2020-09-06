@@ -1,8 +1,10 @@
 export const firebaseConfig = {
-  apiKey: 'AIzaSyAVidZ-q8lYWBBwi5r1iL4TxvkE71MF_Us',
-  authDomain: 'angular-blog-9c2e5.firebaseapp.com',
-  databaseURL: 'https://angular-blog-9c2e5.firebaseio.com',
-  projectId: 'angular-blog-9c2e5',
-  storageBucket: 'angular-blog-9c2e5.appspot.com',
-  messagingSenderId: '175601049539',
+  apiKey: 'AIzaSyD-nlSmdDnu5hCP7OSZgLGnQicRdkTvPJ0',
+  authDomain: 'tutor-time-50590.firebaseapp.com',
+  databaseURL: 'https://tutor-time-50590.firebaseio.com',
+  projectId: 'tutor-time-50590',
+  storageBucket: 'tutor-time-50590.appspot.com',
+  messagingSenderId: '625475730767',
+  appId: '1:625475730767:web:89b71c0a049ef88a02593a',
+  measurementId: 'G-3V0G0V4RTC',
 };

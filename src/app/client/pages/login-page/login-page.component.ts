@@ -18,13 +18,13 @@ import { map } from 'rxjs/operators';
   animations: [routeAnimation],
 })
 export class LoginPageComponent implements OnInit {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
 
-  hide: boolean = true;
-  rememberMe: boolean = true;
+  hide = true;
+  rememberMe = true;
 
-  isLoading: Boolean = false;
+  isLoading = false;
 
   users: Observable<any>;
   usersRef: AngularFireList<any>;

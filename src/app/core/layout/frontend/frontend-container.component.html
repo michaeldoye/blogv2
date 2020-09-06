@@ -1,10 +1,10 @@
 <div class="page-container">
   <mat-toolbar class="main-toolbar" color="primary">
     <!--<mat-icon>face</mat-icon>&nbsp;-->
-    Michael Doye
+    Tutor Time
     <span fxFlex></span>
     <button mat-button routerLink="/">Home</button>
-    <button routerLink="/admin" mat-button>admin</button>
+    <button *ngIf="loggedIn" routerLink="/admin" mat-button>admin</button>
   </mat-toolbar>
 
   <div class="content-container">

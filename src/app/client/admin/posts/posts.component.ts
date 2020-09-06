@@ -40,7 +40,7 @@ export class PostsComponent {
   allPosts: Array<Post> = [];
   user: User;
 
-  isLoading: boolean = true;
+  isLoading = true;
   postsRef: AngularFireObject<Post>;
 
   checkAll: any;
@@ -103,7 +103,9 @@ export class PostsComponent {
    * @return void
    */
   doCheckAll(value: boolean): void {
-    if (value) this.selectedPosts = [];
+    if (value) {
+      this.selectedPosts = [];
+    }
     this.allPosts.forEach((post: Post) => {
       post.isChecked = value;
       if (value) {
@@ -124,16 +126,16 @@ export class PostsComponent {
 
   /**
    * @desc Add selected posts to selected posts array
-   * @param int id - seleted post id
-   * @param boolean isChecked - if the selected post is checked
    * @return void
    */
   doSinglePostSelection(id: number, isChecked: boolean): void {
     if (isChecked) {
       this.selectedPosts.push(id);
     } else {
-      let indx = this.selectedPosts.indexOf(id);
-      if (indx > -1) this.selectedPosts.splice(indx, 1);
+      const indx = this.selectedPosts.indexOf(id);
+      if (indx > -1) {
+        this.selectedPosts.splice(indx, 1);
+      }
     }
   }
 
@@ -158,7 +160,7 @@ export class PostsComponent {
         });
 
         // Save the post structure for Firebase
-        let posts: any = { posts: this.allPosts };
+        const posts: any = { posts: this.allPosts };
 
         // Update the posts node with the updated posts array
         this.postsRef

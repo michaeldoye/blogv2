@@ -11,15 +11,17 @@ import { EditPostComponent } from './client/admin/posts/edit-post/edit-post.comp
 import { AddPostComponent } from './client/admin/posts/add-post/add-post.component';
 import { AdminAuthGuard } from './client/utils/admin-auth.gaurd';
 import { AuthResolver } from './client/utils/auth.resolver';
+import { LandingPageComponent } from './client/pages/landing-page/landing-page.component';
 
 const routes: Routes = [
   {
     path: '',
     component: FrontendContainerComponent,
+    resolve: { auth: AuthResolver },
     children: [
       {
         path: '',
-        component: HomePageComponent,
+        component: LandingPageComponent,
       },
       {
         path: 'post/:id/:title',
@@ -44,18 +46,18 @@ const routes: Routes = [
       {
         path: 'posts',
         component: PostsComponent,
-        resolve: {auth: AuthResolver}
+        resolve: { auth: AuthResolver },
       },
       {
         path: 'posts/edit/:id',
         component: EditPostComponent,
-        resolve: {auth: AuthResolver}
+        resolve: { auth: AuthResolver },
       },
       {
         path: 'posts/new',
         component: AddPostComponent,
         pathMatch: 'full',
-        resolve: {auth: AuthResolver}
+        resolve: { auth: AuthResolver },
       },
     ],
   },

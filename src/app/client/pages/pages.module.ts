@@ -9,9 +9,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SinglePostComponent } from './single-post/single-post.component';
 import { MaterialModule } from '../../material.module';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
-  declarations: [LoginPageComponent, HomePageComponent, SinglePostComponent],
+  declarations: [
+    LoginPageComponent,
+    HomePageComponent,
+    SinglePostComponent,
+    LandingPageComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,

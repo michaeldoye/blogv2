@@ -16,6 +16,19 @@ export class PostsService {
   previewHtml: any;
   firebaseApp: FirebaseApp;
 
+  blah = {
+    Version: '2012–10–17',
+    Statement: [
+      {
+        Sid: 'PublicReadGetObject',
+        Effect: 'Allow',
+        Principal: '*',
+        Action: 's3: GetObject',
+        Resource: 'arn:aws:s3:::tutor-time/*',
+      },
+    ],
+  };
+
   constructor(
     firebaseApp: FirebaseApp,
     private db: AngularFireDatabase,
@@ -34,7 +47,7 @@ export class PostsService {
   }
 
   uploadImage(files: File): Promise<any> {
-    let storageRef = this.firebaseApp.storage().ref().child(files[0].name);
+    const storageRef = this.firebaseApp.storage().ref().child(files[0].name);
     return storageRef
       .put(files[0])
       .then((snapshot) => {
@@ -46,10 +59,10 @@ export class PostsService {
   }
 
   renderContent(_content: any): SafeHtml {
-    let _markedRender = new marked.Renderer();
+    const _markedRender = new marked.Renderer();
     _markedRender.code = (code: any, language: any) => {
-      let validLang = !!(language && hljs.getLanguage(language));
-      let highlighted = validLang ? hljs.highlight(language, code).value : code;
+      const validLang = !!(language && hljs.getLanguage(language));
+      const highlighted = validLang ? hljs.highlight(language, code).value : code;
       return `<pre style="padding: 0; border-radius: 0;"><code class="hljs ${language}">${highlighted}</code></pre>`;
     };
 
@@ -74,12 +87,12 @@ export class PostsService {
       }
     };
 
-    let _markedOpt = {
+    const _markedOpt = {
       renderer: _markedRender,
       highlight: (code: any) => hljs.highlightAuto(code).value,
     };
 
-    let html = marked(_content, _markedOpt);
+    const html = marked(_content, _markedOpt);
 
     return this._domSanitizer.bypassSecurityTrustHtml(html);
   }
